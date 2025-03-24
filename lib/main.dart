@@ -2,6 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import '../firebase_options.dart';
+import 'Utilities/math.dart'; // Import the math.dart file
+
+// --- Global Variables ---
+// Create a global instance of MathVariables
+MathVariables globalMath = MathVariables();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
@@ -108,6 +113,20 @@ class _SelectionTableState extends State<SelectionTable> {
                                     isSelected ? null : index;
                               });
                               print('Selected Aircraft ID: ${aircraftData[index]['id']}');
+                              // Update global aircraft variables when selected
+                              if (_selectedAircraftIndex != null) {
+                                globalMath.aircraftXa = aircraftData[_selectedAircraftIndex!]['Xa'] ?? 0.0;
+                                globalMath.aircraftXe = aircraftData[_selectedAircraftIndex!]['Xe'] ?? 0.0; 
+                                globalMath.aircraftZa = aircraftData[_selectedAircraftIndex!]['Za'] ?? 0.0; 
+                                globalMath.aircraftZe = aircraftData[_selectedAircraftIndex!]['Ze'] ?? 0.0;
+                                globalMath.aircraftType = aircraftData[_selectedAircraftIndex!]['airType'] ?? "none";
+                                globalMath.aircraftCg = aircraftData[_selectedAircraftIndex!]['cg'] ?? 0.0;
+                                globalMath.aircraftFlaps = aircraftData[_selectedAircraftIndex!]['flaps'] ?? 0; 
+                                globalMath.aircraftLookdown = aircraftData[_selectedAircraftIndex!]['lookdown'] ?? 0.0;
+                                globalMath.aircraftPitch = aircraftData[_selectedAircraftIndex!]['pitch'] ?? 0.0;
+                                globalMath.aircraftSpeed = aircraftData[_selectedAircraftIndex!]['speed'] ?? 0.0;
+                                globalMath.aircraftWeight = aircraftData[_selectedAircraftIndex!]['weight'] ?? 0.0;
+                              }
                             },
                           );
                         },
@@ -146,6 +165,18 @@ class _SelectionTableState extends State<SelectionTable> {
                                     isSelected ? null : index;
                               });
                               print('Selected Runway ID: ${runwayData[index]['id']}');
+                              // Update global runway variables when selected
+                              if (_selectedRunwayIndex != null) {
+                                globalMath.runwayDecisionHeight = runwayData[_selectedRunwayIndex!]['DH'] ?? 0.0; 
+                                globalMath.runwayEdgeSpacing = runwayData[_selectedRunwayIndex!]['EdgeSpacing'] ?? 0.0; 
+                                globalMath.runwayGSOffsetX = runwayData[_selectedRunwayIndex!]['GSOffsetX'] ?? 0.0; 
+                                globalMath.runwayGSOffsetY= runwayData[_selectedRunwayIndex!]['GSOffsetY'] ?? 0.0;
+                                globalMath.runwayGlideSlope = runwayData[_selectedRunwayIndex!]['GlideSlope'] ?? 0.0;
+                                globalMath.runwayICAO = runwayData[_selectedRunwayIndex!]['ICAO'] ?? "none";
+                                globalMath.runwayThresholdCrossingHeight = runwayData[_selectedRunwayIndex!]['TCH'] ?? 0.0; 
+                                globalMath.runwayWidth = runwayData[_selectedRunwayIndex!]['Width'] ?? 0.0;
+                                globalMath.runwayLights = runwayData[_selectedRunwayIndex!]['ApproachLights'] ?? "none";
+                              }
                             },
                           );
                         },
@@ -157,16 +188,8 @@ class _SelectionTableState extends State<SelectionTable> {
             ),
           ],
         ),
-// Row(
-//   children: [
-//     Expanded(
-//       flex: 1,
-//       child: Container(
-//         color: Colors.grey[300],
-//         padding: const EdgeInsets.all(16.0), // Added padding for spacing
-//         child: 
-        Row( // Changed Column to Row
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Added for spacing
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ElevatedButton(
               onPressed: () {},
@@ -209,9 +232,8 @@ class _SelectionTableState extends State<SelectionTable> {
               children: <Widget>[
                 Expanded(
                   flex: 3,
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
-                    //color: Colors.purple,
                     child: Center(
                         child: SelectedAircraftIdWidget(
                             selectedAircraftIndex: _selectedAircraftIndex)),
@@ -219,9 +241,8 @@ class _SelectionTableState extends State<SelectionTable> {
                 ),
                 Expanded(
                   flex: 3,
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
-                    //color: Colors.yellow,
                     child: Center(
                         child: SelectedRunwayIdWidget(
                             selectedRunwayIndex: _selectedRunwayIndex)),
@@ -229,11 +250,34 @@ class _SelectionTableState extends State<SelectionTable> {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Container(
+                  child: SizedBox(
                     height: 50,
-                    //color: Colors.orange,
                         child: ElevatedButton(
-                                  onPressed: () {},
+                        onPressed: () {
+                          // Print Aircraft Values
+                          print("Aircraft Xa: ${globalMath.aircraftXa}");
+                          print("Aircraft Xe: ${globalMath.aircraftXe}");
+                          print("Aircraft Za: ${globalMath.aircraftZa}");
+                          print("Aircraft Ze: ${globalMath.aircraftZe}");
+                          print("Aircraft Cg: ${globalMath.aircraftCg}");
+                          print("Aircraft Flaps: ${globalMath.aircraftFlaps}");
+                          print("Aircraft Lookdown: ${globalMath.aircraftLookdown}");
+                          print("Aircraft Pitch: ${globalMath.aircraftPitch}");
+                          print("Aircraft Speed: ${globalMath.aircraftSpeed}");
+                          print("Aircraft Weight: ${globalMath.aircraftWeight}");
+                          print("Aircraft Type: ${globalMath.aircraftType}");
+
+                          // Print Runway Values
+                          print("Runway Approach Lights: ${globalMath.runwayLights}");
+                          print("Runway Decision Height: ${globalMath.runwayDecisionHeight}");
+                          print("Runway Edge Light Spacing: ${globalMath.runwayEdgeSpacing}");
+                          print("Runway GS building X offset: ${globalMath.runwayGSOffsetX}");
+                          print("Runway GS building Y offset: ${globalMath.runwayGSOffsetY}");
+                          print("Runway Glide Slope Angle: ${globalMath.runwayGlideSlope}");
+                          print("Runway ICAO: ${globalMath.runwayICAO}");
+                          print("Runway Threshold Crossing Height(TCH): ${globalMath.runwayThresholdCrossingHeight}");
+                          print("Runway Width: ${globalMath.runwayWidth}");                          
+                        },
                                   style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue,
                                   foregroundColor: Colors.white,
@@ -252,6 +296,28 @@ class _SelectionTableState extends State<SelectionTable> {
               child: Container(
                 height: 500,
                 color: Colors.blue[200],
+                child: Center(
+                  child: _selectedAircraftIndex != null
+                      ? FutureBuilder<List<Map<String, dynamic>>>(
+                          future: readAircraftData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return const Text('No aircraft data available');
+                            } else {
+                              final aircraftData = snapshot.data!;
+                              return Text(
+                                  "Aircraft: ${aircraftData[_selectedAircraftIndex!]['id']}");
+                            }
+                          },
+                        )
+                      : const Text("Aircraft: None"),
+                ),
               ),
             ),
             Expanded(
@@ -259,6 +325,28 @@ class _SelectionTableState extends State<SelectionTable> {
               child: Container(
                 height: 500,
                 color: Colors.red,
+                child: Center(
+                  child: _selectedRunwayIndex != null
+                      ? FutureBuilder<List<Map<String, dynamic>>>(
+                          future: readRunwayData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return const Text('No runway data available');
+                            } else {
+                              final runwayData = snapshot.data!;
+                              return Text(
+                                  "Runway: ${runwayData[_selectedRunwayIndex!]['id']}");
+                            }
+                          },
+                        )
+                      : const Text("Runway: None"),
+                ),
               ),
             ),
           ],
@@ -271,8 +359,7 @@ class _SelectionTableState extends State<SelectionTable> {
 class SelectedAircraftIdWidget extends StatelessWidget {
   final int? selectedAircraftIndex;
 
-  const SelectedAircraftIdWidget({Key? key, this.selectedAircraftIndex})
-      : super(key: key);
+  const SelectedAircraftIdWidget({super.key, this.selectedAircraftIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -296,8 +383,7 @@ class SelectedAircraftIdWidget extends StatelessWidget {
 class SelectedRunwayIdWidget extends StatelessWidget {
   final int? selectedRunwayIndex;
 
-  const SelectedRunwayIdWidget({Key? key, this.selectedRunwayIndex})
-      : super(key: key);
+  const SelectedRunwayIdWidget({super.key, this.selectedRunwayIndex});
 
   @override
   Widget build(BuildContext context) {
