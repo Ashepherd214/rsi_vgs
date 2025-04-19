@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -276,13 +278,52 @@ class _SelectionTableState extends State<SelectionTable> {
                           print("Runway Glide Slope Angle: ${globalMath.runwayGlideSlope}");
                           print("Runway ICAO: ${globalMath.runwayICAO}");
                           print("Runway Threshold Crossing Height(TCH): ${globalMath.runwayThresholdCrossingHeight}");
-                          print("Runway Width: ${globalMath.runwayWidth}");                          
+                          print("Runway Width: ${globalMath.runwayWidth}");       
+
+                          // Calculate VGS variables
+                            // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
+                          globalMath.xAntEye = (globalMath.aircraftXa - globalMath.aircraftXe)*cos(globalMath.runwayGlideSlope) + (globalMath.aircraftZe - globalMath.aircraftZa)*sin(globalMath.runwayGlideSlope);
+                          globalMath.Zeg = globalMath.runwayDecisionHeight + globalMath.aircraftZe * cos(globalMath.runwayGlideSlope) + globalMath.aircraftXe * sin(globalMath.runwayGlideSlope);
+                          globalMath.Zag = globalMath.runwayDecisionHeight + globalMath.aircraftZa + cos(globalMath.runwayGlideSlope) + globalMath.aircraftXa * sin(globalMath.runwayGlideSlope);
+                          globalMath.xAX = globalMath.Zag/tan(globalMath.runwayGlideSlope);
+                          globalMath.realXax = sqrt((globalMath.Zag/tan(pow(globalMath.runwayGlideSlope, 2)) - pow(globalMath.runwayGSOffsetY, 2)));
+                          globalMath.gndRVR = sqrt(pow(globalMath.slantRVR, 2) - pow(globalMath.Zeg,2));
+                          globalMath.cutoffAngle = globalMath.aircraftLookdown - globalMath.aircraftPitch;
+                          globalMath.obseg = globalMath.Zeg/tan(globalMath.cutoffAngle);
+                          globalMath.fov = globalMath.gndRVR - globalMath.obseg;
+                          globalMath.xThres = globalMath.realXax - globalMath.runwayGSOffsetX;
+                          globalMath.xEyeThres = globalMath.xThres + globalMath.xAntEye;
+                          globalMath.xAhead = globalMath.xEyeThres - globalMath.obseg;
+                          globalMath.xBeyond = globalMath.fov - globalMath.xAhead;
+                          globalMath.publishedTCH = globalMath.runwayThresholdCrossingHeight;
+                          globalMath.realTCH = globalMath.publishedTCH + globalMath.runwayGSOffsetY;
+                          
+
+                          
+
+                          
+                          // Print the VGS calculations for verification of math
+                          print("Antenna to Eye distance: ${globalMath.xAntEye}");
+                          print("Elevation of eyepoint above ground: ${globalMath.Zeg}");
+                          print("Elevation of antenna above ground: ${globalMath.Zag}");
+                          print("Distance antenna to GS transmitter antenna: ${globalMath.xAX}");
+                          print("Real distance antenna to GS transmitter antenna: ${globalMath.realXax}");
+                          print("Ground RVR: ${globalMath.gndRVR}");
+                          print("Cutoff Angle: ${globalMath.cutoffAngle}");
+                          print("Obstructed Segment: ${globalMath.obseg}");
+                          print("Field of View: ${globalMath.fov}");
+                          print("Known Threshold Crossing Height: ${globalMath.publishedTCH}");
+                          print("Real Threshold Crossing Height: ${globalMath.realTCH}");
+                          print("Distance of eyepoint to runway threshold: ${globalMath.xEyeThres}");
+                          print("Distance from obscured segment to end of Runway: ${globalMath.xAhead}");
+                          print("Distance from edge of runway to end of ground segment: ${globalMath.xBeyond}");
                         },
                                   style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue,
                                   foregroundColor: Colors.white,
                                   elevation: 100),
                                   child: const Text("Calculate VGS")),
+                                  
       ),
     ),
   ],

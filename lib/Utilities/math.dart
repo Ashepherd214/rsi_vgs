@@ -20,7 +20,7 @@ class MathVariables {
   int runwayGSOffsetY = 0;
   int runwayGlideSlope = 0;
   String runwayICAO = "none";
-  int runwayThresholdCrossingHeight = 0;
+  double runwayThresholdCrossingHeight = 0;
   int runwayWidth = 0;
 
   // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
@@ -37,31 +37,28 @@ class MathVariables {
   // Equation to find value of xAX assuming no Y offset (i.e. GSAntenna is in the center of Runway) is xAX = Zag/tan(GS) 
 
   double realXax = 0.0; // The horizontal ground distance of the aircraft antenna to the GS transmitter Antenna using Real offsets
+  // Same as above but using real world antenna Y offset to side of runway.
   // Equation is Xax = sqrt((Zag/tan(GS))^2 - (yxmtr)^2)
   //                                              ^y-offset of GSAnt
   
-  int slantRVR = 1200; // general expected RVR distance from the eyepoint(Usually equal or slightly less than real ground RVR)
-  int gndRVR = 0; // RVR on the ground instead of from the eye in the air. Needed for proper gnd segment calculations
+  double slantRVR = 1200; // general expected RVR distance from the eyepoint(Usually equal or slightly less than real ground RVR)
+  double gndRVR = 0; // RVR on the ground instead of from the eye in the air. Needed for proper gnd segment calculations
   // Equation is derived from (slantRVR)^2 = (Zeg)^2 + (RVR)^2
   // Final calculation is gndRVR = sqrt((slantRVR)^2-(Zeg)^2)
   
-  int cutoffAngle = 0; // The angle corresponding to the obscured view relative to the ground.
+  double cutoffAngle = 0; // The angle corresponding to the obscured view relative to the ground.
   // Equation for value is cutoffAngle = lookdown - pitch angle
 
   double obseg = 0.0; // The obscured segment the pilots cannot see because of the obstruction of the nose 
   // Equation for value is obseg = Zeg/tan(cutoffAngle)
 
-  int fov = 0; // The entire Ground Segment Field of View
+  double fov = 0; // The entire Ground Segment Field of View
   // Equation for value is gndRVR-obseg
 
-  //Info on term relative to xAX feels like this was same value mislabeled in later proof pages
-  //int aXa = 0; //Glide Slope Tx Antenna to Aircraft Antenna using a zero Y-offset
-  int realaXa = 0; // Same as above but using real world antenna Y offset to side of runway.
-
-  int xThres = 0; // horizontal ground distance of aircraft antenna to the runway threshold
+  double xThres = 0; // horizontal ground distance of aircraft antenna to the runway threshold
   // Equation to determine value is xThres = xAx(With or without GSOffsetY) - GSOffsetX
 
-  int xEyeThres = 0; //The horizontal ground distance of the pilot's eye point to the Threshold
+  double xEyeThres = 0; //The horizontal ground distance of the pilot's eye point to the Threshold
   // Equation to find value is xEyeThres = xThres + xAntEye
 
   double xAhead = 0.0; // The distance from the obscured segment to the end of the runway
