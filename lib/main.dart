@@ -51,30 +51,30 @@ class SelectionTable extends StatefulWidget {
   State<SelectionTable> createState() => _SelectionTableState();
 }
 
+// --- Data Fetching ---
+Future<List<Map<String, dynamic>>> readAircraftData() async {
+  final db = FirebaseFirestore.instance;
+  final querySnapshot = await db.collection("Aircrafts").get();
+  return querySnapshot.docs
+      .map((doc) => {
+            'id': doc.id,
+            ...doc.data(),
+          })
+      .toList();
+}
+
+Future<List<Map<String, dynamic>>> readRunwayData() async {
+  final db = FirebaseFirestore.instance;
+  final querySnapshot = await db.collection("Runways").get();
+  return querySnapshot.docs
+      .map((doc) => {
+            'id': doc.id,
+            ...doc.data(),
+          })
+      .toList();
+}
+
 class _SelectionTableState extends State<SelectionTable> {
-  // --- Data Fetching ---
-  Future<List<Map<String, dynamic>>> readAircraftData() async {
-    final db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("Aircrafts").get();
-    return querySnapshot.docs
-        .map((doc) => {
-              'id': doc.id,
-              ...doc.data(),
-            })
-        .toList();
-  }
-
-  Future<List<Map<String, dynamic>>> readRunwayData() async {
-    final db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("Runways").get();
-    return querySnapshot.docs
-        .map((doc) => {
-              'id': doc.id,
-              ...doc.data(),
-            })
-        .toList();
-  }
-
   // --- State Variables ---
   int? _selectedAircraftIndex;
   int? _selectedRunwayIndex;
@@ -114,20 +114,54 @@ class _SelectionTableState extends State<SelectionTable> {
                                 _selectedAircraftIndex =
                                     isSelected ? null : index;
                               });
-                              print('Selected Aircraft ID: ${aircraftData[index]['id']}');
+                              print(
+                                  'Selected Aircraft ID: ${aircraftData[index]['id']}');
                               // Update global aircraft variables when selected
                               if (_selectedAircraftIndex != null) {
-                                globalMath.aircraftXa = aircraftData[_selectedAircraftIndex!]['Xa'] ?? 0.0;
-                                globalMath.aircraftXe = aircraftData[_selectedAircraftIndex!]['Xe'] ?? 0.0; 
-                                globalMath.aircraftZa = aircraftData[_selectedAircraftIndex!]['Za'] ?? 0.0; 
-                                globalMath.aircraftZe = aircraftData[_selectedAircraftIndex!]['Ze'] ?? 0.0;
-                                globalMath.aircraftType = aircraftData[_selectedAircraftIndex!]['airType'] ?? "none";
-                                globalMath.aircraftCg = aircraftData[_selectedAircraftIndex!]['cg'] ?? 0.0;
-                                globalMath.aircraftFlaps = aircraftData[_selectedAircraftIndex!]['flaps'] ?? 0; 
-                                globalMath.aircraftLookdown = aircraftData[_selectedAircraftIndex!]['lookdown'] ?? 0.0;
-                                globalMath.aircraftPitch = aircraftData[_selectedAircraftIndex!]['pitch'] ?? 0.0;
-                                globalMath.aircraftSpeed = aircraftData[_selectedAircraftIndex!]['speed'] ?? 0.0;
-                                globalMath.aircraftWeight = aircraftData[_selectedAircraftIndex!]['weight'] ?? 0.0;
+                                globalMath.aircraftXa =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['Xa'] ??
+                                        0.0;
+                                globalMath.aircraftXe =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['Xe'] ??
+                                        0.0;
+                                globalMath.aircraftZa =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['Za'] ??
+                                        0.0;
+                                globalMath.aircraftZe =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['Ze'] ??
+                                        0.0;
+                                globalMath.aircraftType =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['airType'] ??
+                                        "none";
+                                globalMath.aircraftCg =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['cg'] ??
+                                        0.0;
+                                globalMath.aircraftFlaps =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['flaps'] ??
+                                        0;
+                                globalMath.aircraftLookdown =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['lookdown'] ??
+                                        0.0;
+                                globalMath.aircraftPitch =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['pitch'] ??
+                                        0.0;
+                                globalMath.aircraftSpeed =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['speed'] ??
+                                        0.0;
+                                globalMath.aircraftWeight =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['weight'] ??
+                                        0.0;
                               }
                             },
                           );
@@ -166,18 +200,43 @@ class _SelectionTableState extends State<SelectionTable> {
                                 _selectedRunwayIndex =
                                     isSelected ? null : index;
                               });
-                              print('Selected Runway ID: ${runwayData[index]['id']}');
+                              print(
+                                  'Selected Runway ID: ${runwayData[index]['id']}');
                               // Update global runway variables when selected
                               if (_selectedRunwayIndex != null) {
-                                globalMath.runwayDecisionHeight = runwayData[_selectedRunwayIndex!]['DH'] ?? 0.0; 
-                                globalMath.runwayEdgeSpacing = runwayData[_selectedRunwayIndex!]['EdgeSpacing'] ?? 0.0; 
-                                globalMath.runwayGSOffsetX = runwayData[_selectedRunwayIndex!]['GSOffsetX'] ?? 0.0; 
-                                globalMath.runwayGSOffsetY= runwayData[_selectedRunwayIndex!]['GSOffsetY'] ?? 0.0;
-                                globalMath.runwayGlideSlope = runwayData[_selectedRunwayIndex!]['GlideSlope'] ?? 0.0;
-                                globalMath.runwayICAO = runwayData[_selectedRunwayIndex!]['ICAO'] ?? "none";
-                                globalMath.runwayThresholdCrossingHeight = runwayData[_selectedRunwayIndex!]['TCH'] ?? 0.0; 
-                                globalMath.runwayWidth = runwayData[_selectedRunwayIndex!]['Width'] ?? 0.0;
-                                globalMath.runwayLights = runwayData[_selectedRunwayIndex!]['ApproachLights'] ?? "none";
+                                globalMath.runwayDecisionHeight =
+                                    runwayData[_selectedRunwayIndex!]['DH'] ??
+                                        0.0;
+                                globalMath.runwayEdgeSpacing =
+                                    runwayData[_selectedRunwayIndex!]
+                                            ['EdgeSpacing'] ??
+                                        0.0;
+                                globalMath.runwayGSOffsetX =
+                                    runwayData[_selectedRunwayIndex!]
+                                            ['GSOffsetX'] ??
+                                        0.0;
+                                globalMath.runwayGSOffsetY =
+                                    runwayData[_selectedRunwayIndex!]
+                                            ['GSOffsetY'] ??
+                                        0.0;
+                                globalMath.runwayGlideSlope =
+                                    runwayData[_selectedRunwayIndex!]
+                                            ['GlideSlope'] ??
+                                        0.0;
+                                globalMath.runwayICAO =
+                                    runwayData[_selectedRunwayIndex!]['ICAO'] ??
+                                        "none";
+                                globalMath.runwayThresholdCrossingHeight =
+                                    runwayData[_selectedRunwayIndex!]['TCH'] ??
+                                        0.0;
+                                globalMath.runwayWidth =
+                                    runwayData[_selectedRunwayIndex!]
+                                            ['Width'] ??
+                                        0.0;
+                                globalMath.runwayLights =
+                                    runwayData[_selectedRunwayIndex!]
+                                            ['ApproachLights'] ??
+                                        "none";
                               }
                             },
                           );
@@ -196,8 +255,7 @@ class _SelectionTableState extends State<SelectionTable> {
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white),
+                  backgroundColor: Colors.blue, foregroundColor: Colors.white),
               child: const Text("Add Aircraft"),
             ),
             ElevatedButton(
@@ -254,7 +312,7 @@ class _SelectionTableState extends State<SelectionTable> {
                   flex: 1,
                   child: SizedBox(
                     height: 50,
-                        child: ElevatedButton(
+                    child: ElevatedButton(
                         onPressed: () {
                           // Print Aircraft Values
                           print("Aircraft Xa: ${globalMath.aircraftXa}");
@@ -263,71 +321,109 @@ class _SelectionTableState extends State<SelectionTable> {
                           print("Aircraft Ze: ${globalMath.aircraftZe}");
                           print("Aircraft Cg: ${globalMath.aircraftCg}");
                           print("Aircraft Flaps: ${globalMath.aircraftFlaps}");
-                          print("Aircraft Lookdown: ${globalMath.aircraftLookdown}");
+                          print(
+                              "Aircraft Lookdown: ${globalMath.aircraftLookdown}");
                           print("Aircraft Pitch: ${globalMath.aircraftPitch}");
                           print("Aircraft Speed: ${globalMath.aircraftSpeed}");
-                          print("Aircraft Weight: ${globalMath.aircraftWeight}");
+                          print(
+                              "Aircraft Weight: ${globalMath.aircraftWeight}");
                           print("Aircraft Type: ${globalMath.aircraftType}");
 
                           // Print Runway Values
-                          print("Runway Approach Lights: ${globalMath.runwayLights}");
-                          print("Runway Decision Height: ${globalMath.runwayDecisionHeight}");
-                          print("Runway Edge Light Spacing: ${globalMath.runwayEdgeSpacing}");
-                          print("Runway GS building X offset: ${globalMath.runwayGSOffsetX}");
-                          print("Runway GS building Y offset: ${globalMath.runwayGSOffsetY}");
-                          print("Runway Glide Slope Angle: ${globalMath.runwayGlideSlope}");
+                          print(
+                              "Runway Approach Lights: ${globalMath.runwayLights}");
+                          print(
+                              "Runway Decision Height: ${globalMath.runwayDecisionHeight}");
+                          print(
+                              "Runway Edge Light Spacing: ${globalMath.runwayEdgeSpacing}");
+                          print(
+                              "Runway GS building X offset: ${globalMath.runwayGSOffsetX}");
+                          print(
+                              "Runway GS building Y offset: ${globalMath.runwayGSOffsetY}");
+                          print(
+                              "Runway Glide Slope Angle: ${globalMath.runwayGlideSlope}");
                           print("Runway ICAO: ${globalMath.runwayICAO}");
-                          print("Runway Threshold Crossing Height(TCH): ${globalMath.runwayThresholdCrossingHeight}");
-                          print("Runway Width: ${globalMath.runwayWidth}");       
+                          print(
+                              "Runway Threshold Crossing Height(TCH): ${globalMath.runwayThresholdCrossingHeight}");
+                          print("Runway Width: ${globalMath.runwayWidth}");
 
                           // Calculate VGS variables
-                            // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
-                          globalMath.xAntEye = (globalMath.aircraftXa - globalMath.aircraftXe)*cos(globalMath.runwayGlideSlope) + (globalMath.aircraftZe - globalMath.aircraftZa)*sin(globalMath.runwayGlideSlope);
-                          globalMath.Zeg = globalMath.runwayDecisionHeight + globalMath.aircraftZe * cos(globalMath.runwayGlideSlope) + globalMath.aircraftXe * sin(globalMath.runwayGlideSlope);
-                          globalMath.Zag = globalMath.runwayDecisionHeight + globalMath.aircraftZa + cos(globalMath.runwayGlideSlope) + globalMath.aircraftXa * sin(globalMath.runwayGlideSlope);
-                          globalMath.xAX = globalMath.Zag/tan(globalMath.runwayGlideSlope);
-                          globalMath.realXax = sqrt((globalMath.Zag/tan(pow(globalMath.runwayGlideSlope, 2)) - pow(globalMath.runwayGSOffsetY, 2)));
-                          globalMath.gndRVR = sqrt(pow(globalMath.slantRVR, 2) - pow(globalMath.Zeg,2));
-                          globalMath.cutoffAngle = globalMath.aircraftLookdown - globalMath.aircraftPitch;
-                          globalMath.obseg = globalMath.Zeg/tan(globalMath.cutoffAngle);
+                          // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
+                          globalMath.xAntEye = (globalMath.aircraftXa -
+                                      globalMath.aircraftXe) *
+                                  cos(globalMath.runwayGlideSlope) +
+                              (globalMath.aircraftZe - globalMath.aircraftZa) *
+                                  sin(globalMath.runwayGlideSlope);
+                          globalMath.Zeg = globalMath.runwayDecisionHeight +
+                              globalMath.aircraftZe *
+                                  cos(globalMath.runwayGlideSlope) +
+                              globalMath.aircraftXe *
+                                  sin(globalMath.runwayGlideSlope);
+                          globalMath.Zag = globalMath.runwayDecisionHeight +
+                              globalMath.aircraftZa +
+                              cos(globalMath.runwayGlideSlope) +
+                              globalMath.aircraftXa *
+                                  sin(globalMath.runwayGlideSlope);
+                          globalMath.xAX =
+                              globalMath.Zag / tan(globalMath.runwayGlideSlope);
+                          globalMath.realXax = sqrt((globalMath.Zag /
+                                  tan(pow(globalMath.runwayGlideSlope, 2)) -
+                              pow(globalMath.runwayGSOffsetY, 2)));
+                          globalMath.gndRVR = sqrt(pow(globalMath.slantRVR, 2) -
+                              pow(globalMath.Zeg, 2));
+                          globalMath.cutoffAngle = globalMath.aircraftLookdown -
+                              globalMath.aircraftPitch;
+                          globalMath.obseg =
+                              globalMath.Zeg / tan(globalMath.cutoffAngle);
                           globalMath.fov = globalMath.gndRVR - globalMath.obseg;
-                          globalMath.xThres = globalMath.realXax - globalMath.runwayGSOffsetX;
-                          globalMath.xEyeThres = globalMath.xThres + globalMath.xAntEye;
-                          globalMath.xAhead = globalMath.xEyeThres - globalMath.obseg;
-                          globalMath.xBeyond = globalMath.fov - globalMath.xAhead;
-                          globalMath.publishedTCH = globalMath.runwayThresholdCrossingHeight;
-                          globalMath.realTCH = globalMath.publishedTCH + globalMath.runwayGSOffsetY;
-                          
+                          globalMath.xThres =
+                              globalMath.realXax - globalMath.runwayGSOffsetX;
+                          globalMath.xEyeThres =
+                              globalMath.xThres + globalMath.xAntEye;
+                          globalMath.xAhead =
+                              globalMath.xEyeThres - globalMath.obseg;
+                          globalMath.xBeyond =
+                              globalMath.fov - globalMath.xAhead;
+                          globalMath.publishedTCH =
+                              globalMath.runwayThresholdCrossingHeight;
+                          globalMath.realTCH = globalMath.publishedTCH +
+                              globalMath.runwayGSOffsetY;
 
-                          
-
-                          
                           // Print the VGS calculations for verification of math
-                          print("Antenna to Eye distance: ${globalMath.xAntEye}");
-                          print("Elevation of eyepoint above ground: ${globalMath.Zeg}");
-                          print("Elevation of antenna above ground: ${globalMath.Zag}");
-                          print("Distance antenna to GS transmitter antenna: ${globalMath.xAX}");
-                          print("Real distance antenna to GS transmitter antenna: ${globalMath.realXax}");
+                          print(
+                              "Antenna to Eye distance: ${globalMath.xAntEye}");
+                          print(
+                              "Elevation of eyepoint above ground: ${globalMath.Zeg}");
+                          print(
+                              "Elevation of antenna above ground: ${globalMath.Zag}");
+                          print(
+                              "Distance antenna to GS transmitter antenna: ${globalMath.xAX}");
+                          print(
+                              "Real distance antenna to GS transmitter antenna: ${globalMath.realXax}");
                           print("Ground RVR: ${globalMath.gndRVR}");
                           print("Cutoff Angle: ${globalMath.cutoffAngle}");
                           print("Obstructed Segment: ${globalMath.obseg}");
                           print("Field of View: ${globalMath.fov}");
-                          print("Known Threshold Crossing Height: ${globalMath.publishedTCH}");
-                          print("Real Threshold Crossing Height: ${globalMath.realTCH}");
-                          print("Distance of eyepoint to runway threshold: ${globalMath.xEyeThres}");
-                          print("Distance from obscured segment to end of Runway: ${globalMath.xAhead}");
-                          print("Distance from edge of runway to end of ground segment: ${globalMath.xBeyond}");
+                          print(
+                              "Known Threshold Crossing Height: ${globalMath.publishedTCH}");
+                          print(
+                              "Real Threshold Crossing Height: ${globalMath.realTCH}");
+                          print(
+                              "Distance of eyepoint to runway threshold: ${globalMath.xEyeThres}");
+                          print(
+                              "Distance from obscured segment to end of Runway: ${globalMath.xAhead}");
+                          print(
+                              "Distance from edge of runway to end of ground segment: ${globalMath.xBeyond}");
                         },
-                                  style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
-                                  elevation: 100),
-                                  child: const Text("Calculate VGS")),
-                                  
-      ),
-    ),
-  ],
-),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                            elevation: 100),
+                        child: const Text("Calculate VGS")),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         Row(
@@ -408,7 +504,7 @@ class SelectedAircraftIdWidget extends StatelessWidget {
       return const Text("No aircraft selected");
     }
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: _SelectionTableState().readAircraftData(),
+      future: readAircraftData(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data!;
@@ -432,7 +528,7 @@ class SelectedRunwayIdWidget extends StatelessWidget {
       return const Text("No runway selected");
     }
     return FutureBuilder<List<Map<String, dynamic>>>(
-      future: _SelectionTableState().readRunwayData(),
+      future: readRunwayData(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final data = snapshot.data!;
