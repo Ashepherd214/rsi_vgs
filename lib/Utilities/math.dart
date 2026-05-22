@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class MathVariables {
   // Aircraft Variables
   double aircraftXa = 0.0;
@@ -5,23 +7,23 @@ class MathVariables {
   double aircraftZa = 0.0;
   double aircraftZe = 0.0;
   double aircraftCg = 0.0;
-  int aircraftFlaps = 0;
+  double aircraftFlaps = 0.0;
   double aircraftLookdown = 0.0;
   double aircraftPitch = 0.0;
   double aircraftSpeed = 0.0;
-  int aircraftWeight = 0;
+  double aircraftWeight = 0.0;
   String aircraftType = "none";
 
   // Runway Variables
   String runwayLights = "none";
-  int runwayDecisionHeight = 100;
-  int runwayEdgeSpacing = 200;
-  int runwayGSOffsetX = 0;
-  int runwayGSOffsetY = 0;
-  int runwayGlideSlope = 0;
+  double runwayDecisionHeight = 100.0;
+  double runwayEdgeSpacing = 200.0;
+  double runwayGSOffsetX = 0.0;
+  double runwayGSOffsetY = 0.0;
+  double runwayGlideSlope = 0.0;
   String runwayICAO = "none";
-  double runwayThresholdCrossingHeight = 0;
-  int runwayWidth = 0;
+  double runwayThresholdCrossingHeight = 0.0;
+  double runwayWidth = 0.0;
 
   // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
   double xAntEye = 0.0; //the horizontal distance between the antenna(at nose of aircraft) to eyepoint.
@@ -41,24 +43,24 @@ class MathVariables {
   // Equation is Xax = sqrt((Zag/tan(GS))^2 - (yxmtr)^2)
   //                                              ^y-offset of GSAnt
   
-  double slantRVR = 1200; // general expected RVR distance from the eyepoint(Usually equal or slightly less than real ground RVR)
-  double gndRVR = 0; // RVR on the ground instead of from the eye in the air. Needed for proper gnd segment calculations
+  double slantRVR = 1200.0; // general expected RVR distance from the eyepoint(Usually equal or slightly less than real ground RVR)
+  double gndRVR = 0.0; // RVR on the ground instead of from the eye in the air. Needed for proper gnd segment calculations
   // Equation is derived from (slantRVR)^2 = (Zeg)^2 + (RVR)^2
   // Final calculation is gndRVR = sqrt((slantRVR)^2-(Zeg)^2)
   
-  double cutoffAngle = 0; // The angle corresponding to the obscured view relative to the ground.
+  double cutoffAngle = 0.0; // The angle corresponding to the obscured view relative to the ground.
   // Equation for value is cutoffAngle = lookdown - pitch angle
 
   double obseg = 0.0; // The obscured segment the pilots cannot see because of the obstruction of the nose 
   // Equation for value is obseg = Zeg/tan(cutoffAngle)
 
-  double fov = 0; // The entire Ground Segment Field of View
+  double fov = 0.0; // The entire Ground Segment Field of View
   // Equation for value is gndRVR-obseg
 
-  double xThres = 0; // horizontal ground distance of aircraft antenna to the runway threshold
+  double xThres = 0.0; // horizontal ground distance of aircraft antenna to the runway threshold
   // Equation to determine value is xThres = xAx(With or without GSOffsetY) - GSOffsetX
 
-  double xEyeThres = 0; //The horizontal ground distance of the pilot's eye point to the Threshold
+  double xEyeThres = 0.0; //The horizontal ground distance of the pilot's eye point to the Threshold
   // Equation to find value is xEyeThres = xThres + xAntEye
 
   double xAhead = 0.0; // The distance from the obscured segment to the end of the runway
@@ -83,4 +85,7 @@ class MathVariables {
   double screenX = 0.0;
   double screenY = 0.0;
   double scale = 1.0;
+
+  double radToDeg = pi/180;
+  double degToRad = 180/pi;
 }

@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 
 //----------------Approach Light Types Start----------------//
-/**
- * ODALS (Needs checking)
- * MALSF (Done)
- * MALSR (Done) (Has running lights)
- * SSALF (Done)
- * SSALR (Done) (Has running lights)
- * ALSF-1 (Done)
- * ALSF-2 (Done)
- * RAIL (In Progress)
- * CALVERT (Needs Checking)
- * CLAVERT 2 (In Progress)
- * MALS
- * SALS
- * SSALS (Has running lights )
- */
+/// ODALS (Needs checking)
+/// MALSF (Done)
+/// MALSR (Done) (Has running lights)
+/// SSALF (Done)
+/// SSALR (Done) (Has running lights)
+/// ALSF-1 (Done)
+/// ALSF-2 (Done)
+/// RAIL (In Progress)
+/// CALVERT (Needs Checking)
+/// CLAVERT 2 (In Progress)
+/// MALS
+/// SALS
+/// SSALS (Has running lights )
 //----------------Approach Light Types End------------------//
 
 class Light {
@@ -684,12 +682,58 @@ class LightPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (lights.isEmpty || size.width <= 0 || size.height <= 0) return;
+
     final paint = Paint()..style = PaintingStyle.fill;
+
+    // Calculate the bounding box of the blueprint coordinates
+    double minX = lights.first.x;
+    double maxX = lights.first.x;
+    double minY = lights.first.y;
+    double maxY = lights.first.y;
+
+    for (final light in lights) {
+      if (light.x < minX) minX = light.x;
+      if (light.x > maxX) maxX = light.x;
+      if (light.y < minY) minY = light.y;
+      if (light.y > maxY) maxY = light.y;
+    }
+
+    // Add padding to prevent lights clipping on the canvas edges
+    double padding = 20.0;
+    minX -= padding;
+    maxX += padding;
+    minY -= padding;
+    maxY += padding;
+
+    double origWidth = maxX - minX;
+    double origHeight = maxY - minY;
+
+    if (origWidth <= 0) origWidth = 1.0;
+    if (origHeight <= 0) origHeight = 1.0;
+
+    // Calculate scale factor to fit exactly within the canvas size
+    double scaleX = size.width / origWidth;
+    double scaleY = size.height / origHeight;
+    double scale = scaleX < scaleY ? scaleX : scaleY;
+
+    // Calculate offset to center the system in the canvas
+    double offsetX = (size.width - origWidth * scale) / 2.0;
+    double offsetY = (size.height - origHeight * scale) / 2.0;
 
     for (final light in lights) {
       paint.color = light.color;
       paint.maskFilter = const MaskFilter.blur(BlurStyle.normal, 3.0);
-      canvas.drawCircle(Offset(light.x, light.y), light.radius, paint);
+      
+      // Map the fixed coordinate to the dynamic canvas size
+      double mappedX = offsetX + (light.x - minX) * scale;
+      double mappedY = offsetY + (light.y - minY) * scale;
+      double mappedRadius = light.radius * scale;
+      
+      // Ensure lights are still visible even if scaled down
+      if (mappedRadius < 1.5) mappedRadius = 1.5;
+
+      canvas.drawCircle(Offset(mappedX, mappedY), mappedRadius, paint);
     }
   }
 
