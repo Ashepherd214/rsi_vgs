@@ -11,7 +11,6 @@ import 'CustomWidgets/lights_builder.dart';
 // Create a global instance of MathVariables
 MathVariables globalMath = MathVariables();
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
   await Firebase.initializeApp(
@@ -147,17 +146,60 @@ class _SelectionTableState extends State<SelectionTable> {
                                   'Selected Aircraft ID: ${aircraftData[index]['id']}');
                               // Update global aircraft variables when selected
                               if (_selectedAircraftIndex != null) {
-                                globalMath.aircraftXa = (aircraftData[_selectedAircraftIndex!]['Xa'] ?? 0.0).toDouble();
-                                globalMath.aircraftXe = (aircraftData[_selectedAircraftIndex!]['Xe'] ?? 0.0).toDouble(); 
-                                globalMath.aircraftZa = (aircraftData[_selectedAircraftIndex!]['Za'] ?? 0.0).toDouble(); 
-                                globalMath.aircraftZe = (aircraftData[_selectedAircraftIndex!]['Ze'] ?? 0.0).toDouble();
-                                globalMath.aircraftType = aircraftData[_selectedAircraftIndex!]['airType'] ?? "none";
-                                globalMath.aircraftCg = (aircraftData[_selectedAircraftIndex!]['cg'] ?? 0.0).toDouble();
-                                globalMath.aircraftFlaps = (aircraftData[_selectedAircraftIndex!]['flaps'] ?? 0.0).toDouble(); 
-                                globalMath.aircraftLookdown = (aircraftData[_selectedAircraftIndex!]['lookdown'] ?? 0.0).toDouble();
-                                globalMath.aircraftPitch = (aircraftData[_selectedAircraftIndex!]['pitch'] ?? 0.0).toDouble();
-                                globalMath.aircraftSpeed = (aircraftData[_selectedAircraftIndex!]['speed'] ?? 0.0).toDouble();
-                                globalMath.aircraftWeight = (aircraftData[_selectedAircraftIndex!]['weight'] ?? 0.0).toDouble();
+                                globalMath.aircraftXa =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['Xa'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftXe =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['Xe'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftZa =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['Za'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftZe =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['Ze'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftType =
+                                    aircraftData[_selectedAircraftIndex!]
+                                            ['airType'] ??
+                                        "none";
+                                globalMath.aircraftCg =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['cg'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftFlaps =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['flaps'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftLookdown =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['lookdown'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftPitch =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['pitch'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftSpeed =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['speed'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.aircraftWeight =
+                                    (aircraftData[_selectedAircraftIndex!]
+                                                ['weight'] ??
+                                            0.0)
+                                        .toDouble();
                               }
                             },
                           );
@@ -200,15 +242,46 @@ class _SelectionTableState extends State<SelectionTable> {
                                   'Selected Runway ID: ${runwayData[index]['id']}');
                               // Update global runway variables when selected
                               if (_selectedRunwayIndex != null) {
-                                globalMath.runwayDecisionHeight = (runwayData[_selectedRunwayIndex!]['DH'] ?? 0.0).toDouble(); 
-                                globalMath.runwayEdgeSpacing = (runwayData[_selectedRunwayIndex!]['EdgeSpacing'] ?? 0.0).toDouble(); 
-                                globalMath.runwayGSOffsetX = (runwayData[_selectedRunwayIndex!]['GSOffsetX'] ?? 0.0).toDouble(); 
-                                globalMath.runwayGSOffsetY= (runwayData[_selectedRunwayIndex!]['GSOffsetY'] ?? 0.0).toDouble();
-                                globalMath.runwayGlideSlope = (runwayData[_selectedRunwayIndex!]['GlideSlope'] ?? 0.0).toDouble();
-                                globalMath.runwayICAO = runwayData[_selectedRunwayIndex!]['ICAO'] ?? "none";
-                                globalMath.runwayThresholdCrossingHeight = (runwayData[_selectedRunwayIndex!]['TCH'] ?? 0.0).toDouble(); 
-                                globalMath.runwayWidth = (runwayData[_selectedRunwayIndex!]['Width'] ?? 0.0).toDouble();
-                                globalMath.runwayLights = runwayData[_selectedRunwayIndex!]['ApproachLights'] ?? "none";
+                                globalMath.runwayDecisionHeight =
+                                    (runwayData[_selectedRunwayIndex!]['DH'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.runwayEdgeSpacing =
+                                    (runwayData[_selectedRunwayIndex!]
+                                                ['EdgeSpacing'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.runwayGSOffsetX =
+                                    (runwayData[_selectedRunwayIndex!]
+                                                ['GSOffsetX'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.runwayGSOffsetY =
+                                    (runwayData[_selectedRunwayIndex!]
+                                                ['GSOffsetY'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.runwayGlideSlope =
+                                    (runwayData[_selectedRunwayIndex!]
+                                                ['GlideSlope'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.runwayICAO =
+                                    runwayData[_selectedRunwayIndex!]['ICAO'] ??
+                                        "none";
+                                globalMath.runwayThresholdCrossingHeight =
+                                    (runwayData[_selectedRunwayIndex!]['TCH'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.runwayWidth =
+                                    (runwayData[_selectedRunwayIndex!]
+                                                ['Width'] ??
+                                            0.0)
+                                        .toDouble();
+                                globalMath.runwayLights =
+                                    runwayData[_selectedRunwayIndex!]
+                                            ['ApproachLights'] ??
+                                        "none";
                               }
                             },
                           );
@@ -291,8 +364,6 @@ class _SelectionTableState extends State<SelectionTable> {
                           // Using a default value of 1200.0 based on comments in the code.
                           globalMath.slantRVR = 1200.0;
 
-                          
-
                           // Print Aircraft Values
                           print("Aircraft Xa: ${globalMath.aircraftXa}");
                           print("Aircraft Xe: ${globalMath.aircraftXe}");
@@ -322,33 +393,76 @@ class _SelectionTableState extends State<SelectionTable> {
                           print(
                               "Runway Glide Slope Angle: ${globalMath.runwayGlideSlope}");
                           print("Runway ICAO: ${globalMath.runwayICAO}");
-                          print("Runway Threshold Crossing Height(TCH): ${globalMath.runwayThresholdCrossingHeight}");
-                          print("Runway Width: ${globalMath.runwayWidth}");       
+                          print(
+                              "Runway Threshold Crossing Height(TCH): ${globalMath.runwayThresholdCrossingHeight}");
+                          print("Runway Width: ${globalMath.runwayWidth}");
 
                           // Calculate VGS variables
-                            // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
-                          //globalMath.xAntEye = ((globalMath.aircraftXa - globalMath.aircraftXe)*cos(globalMath.aircraftPitch*globalMath.radToDeg)) + ((globalMath.aircraftZe - globalMath.aircraftZa)*sin(globalMath.aircraftPitch*globalMath.radToDeg));
-                          //globalMath.Zeg = globalMath.runwayDecisionHeight + globalMath.aircraftZe * cos(globalMath.aircraftPitch*globalMath.radToDeg) + globalMath.aircraftXe * sin(globalMath.aircraftPitch*globalMath.radToDeg);
-                          //globalMath.Zag = globalMath.runwayDecisionHeight + globalMath.aircraftZa + cos(globalMath.aircraftPitch*globalMath.radToDeg) + globalMath.aircraftXa * sin(globalMath.aircraftPitch*globalMath.radToDeg);
-                          //globalMath.xAX0 = globalMath.Zag/tan(globalMath.runwayGlideSlope*globalMath.radToDeg);
-                          //globalMath.realXax = sqrt(pow(globalMath.Zag/tan((globalMath.runwayGlideSlope*globalMath.radToDeg)), 2) - pow(globalMath.runwayGSOffsetY, 2));
-                          //globalMath.gndRVR = sqrt(pow(globalMath.slantRVR, 2) - pow(globalMath.Zeg,2));
-                          //globalMath.cutoffAngle = globalMath.aircraftLookdown - globalMath.aircraftPitch;
-                          //globalMath.obseg = globalMath.Zeg/tan(globalMath.cutoffAngle*globalMath.radToDeg);
-                          //globalMath.fov = globalMath.gndRVR - globalMath.obseg;
-                          //globalMath.xThres0 = globalMath.xAX0 - globalMath.runwayGSOffsetX;
-                          //globalMath.xThresReal = globalMath.realXax - globalMath.runwayGSOffsetX;
-                          //globalMath.xEyeThres0 = globalMath.xThres0 + globalMath.xAntEye;
-                          //globalMath.xEyeThresReal = globalMath.xThresReal + globalMath.xAntEye;
-                          //globalMath.xAhead = globalMath.xEyeThresReal - globalMath.obseg;
-                          //globalMath.xAhead0 = globalMath.xEyeThres0 - globalMath.obseg;
-                          //globalMath.xBeyond = globalMath.fov - globalMath.xAhead;
-                          //globalMath.xBeyond0 = globalMath.fov - globalMath.xAhead0;
-                          globalMath.publishedTCH = globalMath.runwayThresholdCrossingHeight;
-                          globalMath.realTCH = globalMath.publishedTCH + globalMath.runwayGSOffsetY;
-                          globalMath.gsxOffsetTCH = globalMath.publishedTCH/tan(globalMath.runwayGlideSlope*globalMath.radToDeg);
+                          // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
+                          globalMath.xAntEye = ((globalMath.aircraftXa -
+                                      globalMath.aircraftXe) *
+                                  cos(globalMath.aircraftPitch *
+                                      globalMath.radToDeg)) +
+                              ((globalMath.aircraftZe - globalMath.aircraftZa) *
+                                  sin(globalMath.aircraftPitch *
+                                      globalMath.radToDeg));
+                          globalMath.Zeg = globalMath.runwayDecisionHeight +
+                              globalMath.aircraftZe *
+                                  cos(globalMath.aircraftPitch *
+                                      globalMath.radToDeg) +
+                              globalMath.aircraftXe *
+                                  sin(globalMath.aircraftPitch *
+                                      globalMath.radToDeg);
+                          globalMath.Zag = globalMath.runwayDecisionHeight +
+                              globalMath.aircraftZa +
+                              cos(globalMath.aircraftPitch *
+                                  globalMath.radToDeg) +
+                              globalMath.aircraftXa *
+                                  sin(globalMath.aircraftPitch *
+                                      globalMath.radToDeg);
+                          globalMath.xAX0 = globalMath.Zag /
+                              tan(globalMath.runwayGlideSlope *
+                                  globalMath.radToDeg);
+                          globalMath.realXax = sqrt(pow(
+                                  globalMath.Zag /
+                                      tan((globalMath.runwayGlideSlope *
+                                          globalMath.radToDeg)),
+                                  2) -
+                              pow(globalMath.runwayGSOffsetY, 2));
+                          globalMath.gndRVR = sqrt(pow(globalMath.slantRVR, 2) -
+                              pow(globalMath.Zeg, 2));
+                          globalMath.cutoffAngle = globalMath.aircraftLookdown -
+                              globalMath.aircraftPitch;
+                          globalMath.obseg = globalMath.Zeg /
+                              tan(globalMath.cutoffAngle * globalMath.radToDeg);
+                          globalMath.fov = globalMath.gndRVR - globalMath.obseg;
+                          globalMath.xThres0 =
+                              globalMath.xAX0 - globalMath.runwayGSOffsetX;
+                          globalMath.xThresReal =
+                              globalMath.realXax - globalMath.runwayGSOffsetX;
+                          globalMath.xEyeThres0 =
+                              globalMath.xThres0 + globalMath.xAntEye;
+                          globalMath.xEyeThresReal =
+                              globalMath.xThresReal + globalMath.xAntEye;
+                          globalMath.xAhead =
+                              globalMath.xEyeThresReal - globalMath.obseg;
+                          globalMath.xAhead0 =
+                              globalMath.xEyeThres0 - globalMath.obseg;
+                          globalMath.xBeyond =
+                              globalMath.fov - globalMath.xAhead;
+                          globalMath.xBeyond0 =
+                              globalMath.fov - globalMath.xAhead0;
+                          globalMath.publishedTCH =
+                              globalMath.runwayThresholdCrossingHeight;
+                          //globalMath.realTCH = globalMath.publishedTCH +
+                          //globalMath.runwayGSOffsetY;
+                          globalMath.gsxOffsetTCH = globalMath.publishedTCH /
+                              tan(globalMath.runwayGlideSlope *
+                                  globalMath.radToDeg);
 
-                          globalMath.xeyethres0TCH = globalMath.xAX0 - globalMath.gsxOffsetTCH + globalMath.xAntEye;
+                          globalMath.xeyethres0TCH = globalMath.xAX0 -
+                              globalMath.gsxOffsetTCH +
+                              globalMath.xAntEye;
 
                           /**
                            * //calculate ahead and beyond segment values assuming GS TX is on runway CL using published TCH
@@ -362,7 +476,6 @@ class _SelectionTableState extends State<SelectionTable> {
 		let xaheadrealTCH = xeyethresrealTCH - obseg;
 		let xbeyondrealTCH = fov - xaheadrealTCH;
                            */
-                          
 
                           /**
                            * let xthres0 = xax0 - this.state.gsx;
@@ -374,11 +487,7 @@ class _SelectionTableState extends State<SelectionTable> {
 		                          let xaheadreal = xthresreal - obseg;
 		                          let xbeyondreal = fov - Math.abs(xaheadreal);
                            */
-                          
 
-                          
-
-                          
                           // Print the VGS calculations for verification of math
                           print(
                               "Antenna to Eye distance: ${globalMath.xAntEye}");
@@ -396,25 +505,24 @@ class _SelectionTableState extends State<SelectionTable> {
                           print("Field of View: ${globalMath.fov}");
                           print(
                               "Known Threshold Crossing Height: ${globalMath.publishedTCH}");
+                          // print(
+                          //     "Real Threshold Crossing Height: ${globalMath.realTCH}");
                           print(
-                              "Real Threshold Crossing Height: ${globalMath.realTCH}");
-                          print(
-                              "Distance of eyepoint to runway threshold: ${globalMath.xEyeThres}");
+                              "Distance of eyepoint to runway threshold: ${globalMath.xEyeThres0}");
                           print(
                               "Distance from obscured segment to end of Runway: ${globalMath.xAhead}");
                           print(
                               "Distance from edge of runway to end of ground segment: ${globalMath.xBeyond}");
                         },
-                                  style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
-                                  elevation: 100),
-                                  child: const Text("Calculate VGS")),
-                                  
-      ),
-    ),
-  ],
-),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                            elevation: 100),
+                        child: const Text("Calculate VGS")),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
         Row(
@@ -423,7 +531,8 @@ class _SelectionTableState extends State<SelectionTable> {
               flex: 4,
               child: Container(
                 height: 500,
-                color: const Color.fromARGB(255, 1, 110, 5), // Changed from Colors.red for better contrast
+                color: const Color.fromARGB(255, 1, 110,
+                    5), // Changed from Colors.red for better contrast
                 child: Stack(
                   children: [
                     CustomPaint(
@@ -533,8 +642,7 @@ class RunwayPainter extends CustomPainter {
     final runwayWidth = size.width / 2;
     final runwayHeight = size.height * 0.2;
     final runwayTop = (size.height - runwayHeight) / 2;
-    final runwayRect =
-        Rect.fromLTWH(0, runwayTop, runwayWidth, runwayHeight);
+    final runwayRect = Rect.fromLTWH(0, runwayTop, runwayWidth, runwayHeight);
     canvas.drawRect(runwayRect, runwayPaint);
 
     // Draw runway centerline horizontally (only over the runway)
@@ -570,7 +678,7 @@ class RunwayPainter extends CustomPainter {
 
       // Scale to fit available width
       double scale = availableWidth / lightSystemWidth;
-      
+
       // Centerline in the original light coordinates is 222.0
       const double lightCenterY = 222.0;
 
@@ -578,11 +686,11 @@ class RunwayPainter extends CustomPainter {
       for (final light in lights) {
         lightPaint.color = light.color;
         lightPaint.maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
-        
+
         double mappedX = runwayWidth + (light.x - minX) * scale;
         double mappedY = centerY + (light.y - lightCenterY) * scale;
         double mappedRadius = light.radius * scale;
-        
+
         if (mappedRadius < 1.5) mappedRadius = 1.5;
 
         canvas.drawCircle(Offset(mappedX, mappedY), mappedRadius, lightPaint);
@@ -601,32 +709,37 @@ class RunwayPainter extends CustomPainter {
     // A positive xAhead moves it to the left of the runway edge.
     final xAheadPos = runwayWidth - (xAhead * scale);
     if (xAheadPos.isFinite) {
-       canvas.drawLine(
+      canvas.drawLine(
         Offset(xAheadPos, 0),
         Offset(xAheadPos, size.height),
         xAheadPaint,
       );
       TextPainter(
-        text: const TextSpan(text: 'xAhead', style: TextStyle(color: Colors.black, backgroundColor: Colors.amber)),
+        text: const TextSpan(
+            text: 'xAhead',
+            style:
+                TextStyle(color: Colors.black, backgroundColor: Colors.amber)),
         textDirection: TextDirection.ltr,
       )
         ..layout()
         ..paint(canvas, Offset(xAheadPos + 5, 5));
     }
 
-
     // Draw xBeyond line (vertical)
     // Positioned relative to the runway threshold (runwayWidth).
     // A negative xBeyond moves it to the right of the runway edge.
     final xBeyondPos = runwayWidth - (xBeyond * scale);
     if (xBeyondPos.isFinite) {
-        canvas.drawLine(
+      canvas.drawLine(
         Offset(xBeyondPos, 0),
         Offset(xBeyondPos, size.height),
         xBeyondPaint,
       );
-       TextPainter(
-        text: const TextSpan(text: 'xBeyond', style: TextStyle(color: Colors.blue, backgroundColor: Colors.black)),
+      TextPainter(
+        text: const TextSpan(
+            text: 'xBeyond',
+            style:
+                TextStyle(color: Colors.blue, backgroundColor: Colors.black)),
         textDirection: TextDirection.ltr,
       )
         ..layout()
@@ -636,10 +749,10 @@ class RunwayPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant RunwayPainter oldDelegate) {
-    return oldDelegate.xAhead != xAhead || 
-           oldDelegate.xBeyond != xBeyond || 
-           oldDelegate.fov != fov ||
-           oldDelegate.lights != lights;
+    return oldDelegate.xAhead != xAhead ||
+        oldDelegate.xBeyond != xBeyond ||
+        oldDelegate.fov != fov ||
+        oldDelegate.lights != lights;
   }
 }
 
