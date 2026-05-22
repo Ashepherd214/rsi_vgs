@@ -11,6 +11,7 @@ import 'CustomWidgets/lights_builder.dart';
 // Create a global instance of MathVariables
 MathVariables globalMath = MathVariables();
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
   await Firebase.initializeApp(
@@ -80,30 +81,30 @@ class _SelectionTableState extends State<SelectionTable> {
   int? _selectedAircraftIndex;
   int? _selectedRunwayIndex;
 
-  Widget _buildLights(String lightSystem) {
+  List<Light> _getLightsForSystem(String lightSystem) {
     switch (lightSystem) {
       case 'MALSR':
-        return const MALSR();
+        return generateMALSR();
       case 'MALSF':
-        return const MALSF();
+        return [...generateMALSF(), ...generateMALSFGreenLight()];
       case 'SSALR':
-        return const SSALR();
+        return generateSSALR();
       case 'SSALF':
-        return const SSALF();
+        return generateSSALF();
       case 'ALSF1':
-        return const ALSF1();
+        return [...generateALSF1(), ...generateALSF1RedLights()];
       case 'ALSF2':
-        return const ALSF2();
+        return [...generateALSF2(), ...generateALSF2RedLights()];
       case 'CALVERT':
-        return const CALVERT();
+        return generateCALVERT();
       case 'CALVERT2':
-        return const CALVERT2();
+        return [...generateCALVERT2(), ...generateCALVERT2RedLights()];
       case 'ODALS':
-        return const ODALS();
+        return generateODALS();
       case 'RAIL':
-        return const RAIL();
+        return generateRAIL();
       default:
-        return Container(); // Return an empty container if no match
+        return []; // Return an empty list if no match
     }
   }
 
@@ -146,17 +147,17 @@ class _SelectionTableState extends State<SelectionTable> {
                                   'Selected Aircraft ID: ${aircraftData[index]['id']}');
                               // Update global aircraft variables when selected
                               if (_selectedAircraftIndex != null) {
-                                globalMath.aircraftXa = aircraftData[_selectedAircraftIndex!]['Xa'] ?? 0.0;
-                                globalMath.aircraftXe = aircraftData[_selectedAircraftIndex!]['Xe'] ?? 0.0; 
-                                globalMath.aircraftZa = aircraftData[_selectedAircraftIndex!]['Za'] ?? 0.0; 
-                                globalMath.aircraftZe = aircraftData[_selectedAircraftIndex!]['Ze'] ?? 0.0;
+                                globalMath.aircraftXa = (aircraftData[_selectedAircraftIndex!]['Xa'] ?? 0.0).toDouble();
+                                globalMath.aircraftXe = (aircraftData[_selectedAircraftIndex!]['Xe'] ?? 0.0).toDouble(); 
+                                globalMath.aircraftZa = (aircraftData[_selectedAircraftIndex!]['Za'] ?? 0.0).toDouble(); 
+                                globalMath.aircraftZe = (aircraftData[_selectedAircraftIndex!]['Ze'] ?? 0.0).toDouble();
                                 globalMath.aircraftType = aircraftData[_selectedAircraftIndex!]['airType'] ?? "none";
-                                globalMath.aircraftCg = aircraftData[_selectedAircraftIndex!]['cg'] ?? 0.0;
-                                globalMath.aircraftFlaps = aircraftData[_selectedAircraftIndex!]['flaps'] ?? 0; 
-                                globalMath.aircraftLookdown = aircraftData[_selectedAircraftIndex!]['lookdown'] ?? 0.0;
-                                globalMath.aircraftPitch = aircraftData[_selectedAircraftIndex!]['pitch'] ?? 0.0;
-                                globalMath.aircraftSpeed = aircraftData[_selectedAircraftIndex!]['speed'] ?? 0.0;
-                                globalMath.aircraftWeight = aircraftData[_selectedAircraftIndex!]['weight'] ?? 0.0;
+                                globalMath.aircraftCg = (aircraftData[_selectedAircraftIndex!]['cg'] ?? 0.0).toDouble();
+                                globalMath.aircraftFlaps = (aircraftData[_selectedAircraftIndex!]['flaps'] ?? 0.0).toDouble(); 
+                                globalMath.aircraftLookdown = (aircraftData[_selectedAircraftIndex!]['lookdown'] ?? 0.0).toDouble();
+                                globalMath.aircraftPitch = (aircraftData[_selectedAircraftIndex!]['pitch'] ?? 0.0).toDouble();
+                                globalMath.aircraftSpeed = (aircraftData[_selectedAircraftIndex!]['speed'] ?? 0.0).toDouble();
+                                globalMath.aircraftWeight = (aircraftData[_selectedAircraftIndex!]['weight'] ?? 0.0).toDouble();
                               }
                             },
                           );
@@ -199,14 +200,14 @@ class _SelectionTableState extends State<SelectionTable> {
                                   'Selected Runway ID: ${runwayData[index]['id']}');
                               // Update global runway variables when selected
                               if (_selectedRunwayIndex != null) {
-                                globalMath.runwayDecisionHeight = runwayData[_selectedRunwayIndex!]['DH'] ?? 0.0; 
-                                globalMath.runwayEdgeSpacing = runwayData[_selectedRunwayIndex!]['EdgeSpacing'] ?? 0.0; 
-                                globalMath.runwayGSOffsetX = runwayData[_selectedRunwayIndex!]['GSOffsetX'] ?? 0.0; 
-                                globalMath.runwayGSOffsetY= runwayData[_selectedRunwayIndex!]['GSOffsetY'] ?? 0.0;
-                                globalMath.runwayGlideSlope = runwayData[_selectedRunwayIndex!]['GlideSlope'] ?? 0.0;
+                                globalMath.runwayDecisionHeight = (runwayData[_selectedRunwayIndex!]['DH'] ?? 0.0).toDouble(); 
+                                globalMath.runwayEdgeSpacing = (runwayData[_selectedRunwayIndex!]['EdgeSpacing'] ?? 0.0).toDouble(); 
+                                globalMath.runwayGSOffsetX = (runwayData[_selectedRunwayIndex!]['GSOffsetX'] ?? 0.0).toDouble(); 
+                                globalMath.runwayGSOffsetY= (runwayData[_selectedRunwayIndex!]['GSOffsetY'] ?? 0.0).toDouble();
+                                globalMath.runwayGlideSlope = (runwayData[_selectedRunwayIndex!]['GlideSlope'] ?? 0.0).toDouble();
                                 globalMath.runwayICAO = runwayData[_selectedRunwayIndex!]['ICAO'] ?? "none";
-                                globalMath.runwayThresholdCrossingHeight = runwayData[_selectedRunwayIndex!]['TCH'] ?? 0.0; 
-                                globalMath.runwayWidth = runwayData[_selectedRunwayIndex!]['Width'] ?? 0.0;
+                                globalMath.runwayThresholdCrossingHeight = (runwayData[_selectedRunwayIndex!]['TCH'] ?? 0.0).toDouble(); 
+                                globalMath.runwayWidth = (runwayData[_selectedRunwayIndex!]['Width'] ?? 0.0).toDouble();
                                 globalMath.runwayLights = runwayData[_selectedRunwayIndex!]['ApproachLights'] ?? "none";
                               }
                             },
@@ -290,6 +291,8 @@ class _SelectionTableState extends State<SelectionTable> {
                           // Using a default value of 1200.0 based on comments in the code.
                           globalMath.slantRVR = 1200.0;
 
+                          
+
                           // Print Aircraft Values
                           print("Aircraft Xa: ${globalMath.aircraftXa}");
                           print("Aircraft Xe: ${globalMath.aircraftXe}");
@@ -324,21 +327,53 @@ class _SelectionTableState extends State<SelectionTable> {
 
                           // Calculate VGS variables
                             // VGS Variables. Assume Glide Slope is 3, RVR for FAA is 1200ft and CAA is usually 1000ft
-                          globalMath.xAntEye = (globalMath.aircraftXa - globalMath.aircraftXe)*cos(globalMath.runwayGlideSlope) + (globalMath.aircraftZe - globalMath.aircraftZa)*sin(globalMath.runwayGlideSlope);
-                          globalMath.Zeg = globalMath.runwayDecisionHeight + globalMath.aircraftZe * cos(globalMath.runwayGlideSlope) + globalMath.aircraftXe * sin(globalMath.runwayGlideSlope);
-                          globalMath.Zag = globalMath.runwayDecisionHeight + globalMath.aircraftZa + cos(globalMath.runwayGlideSlope) + globalMath.aircraftXa * sin(globalMath.runwayGlideSlope);
-                          globalMath.xAX = globalMath.Zag/tan(globalMath.runwayGlideSlope);
-                          globalMath.realXax = sqrt((globalMath.Zag/tan(pow(globalMath.runwayGlideSlope, 2)) - pow(globalMath.runwayGSOffsetY, 2)));
-                          globalMath.gndRVR = sqrt(pow(globalMath.slantRVR, 2) - pow(globalMath.Zeg,2));
-                          globalMath.cutoffAngle = globalMath.aircraftLookdown - globalMath.aircraftPitch;
-                          globalMath.obseg = globalMath.Zeg/tan(globalMath.cutoffAngle);
-                          globalMath.fov = globalMath.gndRVR - globalMath.obseg;
-                          globalMath.xThres = globalMath.realXax - globalMath.runwayGSOffsetX;
-                          globalMath.xEyeThres = globalMath.xThres + globalMath.xAntEye;
-                          globalMath.xAhead = globalMath.xEyeThres - globalMath.obseg;
-                          globalMath.xBeyond = globalMath.fov - globalMath.xAhead;
+                          //globalMath.xAntEye = ((globalMath.aircraftXa - globalMath.aircraftXe)*cos(globalMath.aircraftPitch*globalMath.radToDeg)) + ((globalMath.aircraftZe - globalMath.aircraftZa)*sin(globalMath.aircraftPitch*globalMath.radToDeg));
+                          //globalMath.Zeg = globalMath.runwayDecisionHeight + globalMath.aircraftZe * cos(globalMath.aircraftPitch*globalMath.radToDeg) + globalMath.aircraftXe * sin(globalMath.aircraftPitch*globalMath.radToDeg);
+                          //globalMath.Zag = globalMath.runwayDecisionHeight + globalMath.aircraftZa + cos(globalMath.aircraftPitch*globalMath.radToDeg) + globalMath.aircraftXa * sin(globalMath.aircraftPitch*globalMath.radToDeg);
+                          //globalMath.xAX0 = globalMath.Zag/tan(globalMath.runwayGlideSlope*globalMath.radToDeg);
+                          //globalMath.realXax = sqrt(pow(globalMath.Zag/tan((globalMath.runwayGlideSlope*globalMath.radToDeg)), 2) - pow(globalMath.runwayGSOffsetY, 2));
+                          //globalMath.gndRVR = sqrt(pow(globalMath.slantRVR, 2) - pow(globalMath.Zeg,2));
+                          //globalMath.cutoffAngle = globalMath.aircraftLookdown - globalMath.aircraftPitch;
+                          //globalMath.obseg = globalMath.Zeg/tan(globalMath.cutoffAngle*globalMath.radToDeg);
+                          //globalMath.fov = globalMath.gndRVR - globalMath.obseg;
+                          //globalMath.xThres0 = globalMath.xAX0 - globalMath.runwayGSOffsetX;
+                          //globalMath.xThresReal = globalMath.realXax - globalMath.runwayGSOffsetX;
+                          //globalMath.xEyeThres0 = globalMath.xThres0 + globalMath.xAntEye;
+                          //globalMath.xEyeThresReal = globalMath.xThresReal + globalMath.xAntEye;
+                          //globalMath.xAhead = globalMath.xEyeThresReal - globalMath.obseg;
+                          //globalMath.xAhead0 = globalMath.xEyeThres0 - globalMath.obseg;
+                          //globalMath.xBeyond = globalMath.fov - globalMath.xAhead;
+                          //globalMath.xBeyond0 = globalMath.fov - globalMath.xAhead0;
                           globalMath.publishedTCH = globalMath.runwayThresholdCrossingHeight;
                           globalMath.realTCH = globalMath.publishedTCH + globalMath.runwayGSOffsetY;
+                          globalMath.gsxOffsetTCH = globalMath.publishedTCH/tan(globalMath.runwayGlideSlope*globalMath.radToDeg);
+
+                          globalMath.xeyethres0TCH = globalMath.xAX0 - globalMath.gsxOffsetTCH + globalMath.xAntEye;
+
+                          /**
+                           * //calculate ahead and beyond segment values assuming GS TX is on runway CL using published TCH
+		let xahead0TCH = xeyethres0TCH - obseg;
+		let xbeyond0TCH = fov - xahead0TCH;
+
+		//calculate antenna to threshold distance accounting for lateral offset using published TCH
+		let xeyethresrealTCH = xaxreal - gsxOffsetTCH + xanteye;
+
+		//calculate ahead and beyond segment values assuming GS TX lateral offset using the published TCH
+		let xaheadrealTCH = xeyethresrealTCH - obseg;
+		let xbeyondrealTCH = fov - xaheadrealTCH;
+                           */
+                          
+
+                          /**
+                           * let xthres0 = xax0 - this.state.gsx;
+		                          let xthresreal = xaxreal - this.state.gsx;
+		                          let xeyethres0 = xthres0 + xanteye;
+		                          let xeyethresreal = xthresreal + xanteye;
+		                          let xahead0 = xthres0 - obseg;
+		                          let xbeyond0 = fov - Math.abs(xahead0);
+		                          let xaheadreal = xthresreal - obseg;
+		                          let xbeyondreal = fov - Math.abs(xaheadreal);
+                           */
                           
 
                           
@@ -352,7 +387,7 @@ class _SelectionTableState extends State<SelectionTable> {
                           print(
                               "Elevation of antenna above ground: ${globalMath.Zag}");
                           print(
-                              "Distance antenna to GS transmitter antenna: ${globalMath.xAX}");
+                              "Distance antenna to GS transmitter antenna: ${globalMath.xAX0}");
                           print(
                               "Real distance antenna to GS transmitter antenna: ${globalMath.realXax}");
                           print("Ground RVR: ${globalMath.gndRVR}");
@@ -397,9 +432,9 @@ class _SelectionTableState extends State<SelectionTable> {
                         xAhead: globalMath.xAhead,
                         xBeyond: globalMath.xBeyond,
                         fov: globalMath.fov,
+                        lights: _getLightsForSystem(globalMath.runwayLights),
                       ),
                     ),
-                    _buildLights(globalMath.runwayLights),
                     Center(
                       child: _selectedRunwayIndex != null
                           ? FutureBuilder<List<Map<String, dynamic>>>(
@@ -472,8 +507,14 @@ class RunwayPainter extends CustomPainter {
   final double xAhead;
   final double xBeyond;
   final double fov;
+  final List<Light> lights;
 
-  RunwayPainter({required this.xAhead, required this.xBeyond, required this.fov});
+  RunwayPainter({
+    required this.xAhead,
+    required this.xBeyond,
+    required this.fov,
+    required this.lights,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -482,41 +523,83 @@ class RunwayPainter extends CustomPainter {
       ..color = Colors.white
       ..strokeWidth = 2;
     final xAheadPaint = Paint()
-      ..color = Colors.green
+      ..color = Colors.yellow
       ..strokeWidth = 2;
     final xBeyondPaint = Paint()
-      ..color = Colors.blue
+      ..color = Colors.yellow
       ..strokeWidth = 2;
 
-    // Draw the runway horizontally
+    // Draw the runway horizontally on the left half
+    final runwayWidth = size.width / 2;
     final runwayHeight = size.height * 0.2;
     final runwayTop = (size.height - runwayHeight) / 2;
     final runwayRect =
-        Rect.fromLTWH(0, runwayTop, size.width, runwayHeight);
+        Rect.fromLTWH(0, runwayTop, runwayWidth, runwayHeight);
     canvas.drawRect(runwayRect, runwayPaint);
 
-    //lights_builder."ApproachLights"
-
-    // Draw runway centerline horizontally
+    // Draw runway centerline horizontally (only over the runway)
     const dashWidth = 10.0;
     const dashSpace = 5.0;
     double startX = 0;
     final centerY = size.height / 2;
-    while (startX < size.width) {
-      canvas.drawLine(
-        Offset(startX, centerY),
-        Offset(startX + dashWidth, centerY),
-        runwayCenterLinePaint,
-      );
+    while (startX < runwayWidth) {
+      if (startX + dashWidth <= runwayWidth) {
+        canvas.drawLine(
+          Offset(startX, centerY),
+          Offset(startX + dashWidth, centerY),
+          runwayCenterLinePaint,
+        );
+      }
       startX += dashWidth + dashSpace;
+    }
+
+    // --- Draw Approach Lights to the right of the runway ---
+    if (lights.isNotEmpty) {
+      double minX = lights.first.x;
+      double maxX = lights.first.x;
+
+      for (final light in lights) {
+        if (light.x < minX) minX = light.x;
+        if (light.x > maxX) maxX = light.x;
+      }
+
+      double padding = 20.0;
+      double availableWidth = (size.width / 2) - padding;
+      double lightSystemWidth = maxX - minX;
+      if (lightSystemWidth == 0) lightSystemWidth = 1.0;
+
+      // Scale to fit available width
+      double scale = availableWidth / lightSystemWidth;
+      
+      // Centerline in the original light coordinates is 222.0
+      const double lightCenterY = 222.0;
+
+      final lightPaint = Paint()..style = PaintingStyle.fill;
+      for (final light in lights) {
+        lightPaint.color = light.color;
+        lightPaint.maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.0);
+        
+        double mappedX = runwayWidth + (light.x - minX) * scale;
+        double mappedY = centerY + (light.y - lightCenterY) * scale;
+        double mappedRadius = light.radius * scale;
+        
+        if (mappedRadius < 1.5) mappedRadius = 1.5;
+
+        canvas.drawCircle(Offset(mappedX, mappedY), mappedRadius, lightPaint);
+      }
     }
 
     // Only draw lines if fov is a valid, positive number
     if (fov.isNaN || fov <= 0) return;
 
+    // Scale factor to map feet to pixels.
+    // We use the total width and fov to maintain consistent scaling.
+    double scale = size.width / fov;
+
     // Draw xAhead line (vertical)
-    // This scales the position based on the field of view (fov)
-    final xAheadPos = ((xAhead.abs()) / fov) * size.width;
+    // Positioned relative to the runway threshold (runwayWidth).
+    // A positive xAhead moves it to the left of the runway edge.
+    final xAheadPos = runwayWidth - (xAhead * scale);
     if (xAheadPos.isFinite) {
        canvas.drawLine(
         Offset(xAheadPos, 0),
@@ -524,7 +607,7 @@ class RunwayPainter extends CustomPainter {
         xAheadPaint,
       );
       TextPainter(
-        text: TextSpan(text: 'xAhead', style: TextStyle(color: Colors.green, backgroundColor: Colors.black)),
+        text: const TextSpan(text: 'xAhead', style: TextStyle(color: Colors.black, backgroundColor: Colors.amber)),
         textDirection: TextDirection.ltr,
       )
         ..layout()
@@ -533,8 +616,9 @@ class RunwayPainter extends CustomPainter {
 
 
     // Draw xBeyond line (vertical)
-    // This position is calculated as the start of the 'beyond' segment.
-    final xBeyondPos = ((xAhead + xBeyond) / fov) * size.width;
+    // Positioned relative to the runway threshold (runwayWidth).
+    // A negative xBeyond moves it to the right of the runway edge.
+    final xBeyondPos = runwayWidth - (xBeyond * scale);
     if (xBeyondPos.isFinite) {
         canvas.drawLine(
         Offset(xBeyondPos, 0),
@@ -542,7 +626,7 @@ class RunwayPainter extends CustomPainter {
         xBeyondPaint,
       );
        TextPainter(
-        text: TextSpan(text: 'xBeyond', style: TextStyle(color: Colors.blue, backgroundColor: Colors.black)),
+        text: const TextSpan(text: 'xBeyond', style: TextStyle(color: Colors.blue, backgroundColor: Colors.black)),
         textDirection: TextDirection.ltr,
       )
         ..layout()
@@ -552,7 +636,10 @@ class RunwayPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant RunwayPainter oldDelegate) {
-    return oldDelegate.xAhead != xAhead || oldDelegate.xBeyond != xBeyond || oldDelegate.fov != fov;
+    return oldDelegate.xAhead != xAhead || 
+           oldDelegate.xBeyond != xBeyond || 
+           oldDelegate.fov != fov ||
+           oldDelegate.lights != lights;
   }
 }
 
